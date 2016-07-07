@@ -1,0 +1,263 @@
+* {
+     -moz-box-sizing: border-box; /* Firexfox */
+     -webkit-box-sizing: border-box; /* Safari/Chrome/iOS/Android */
+     box-sizing: border-box; /* IE */
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#container {
+    height: 791px;
+}
+
+header {
+    height: 10%;
+    background-color: rgba(0, 0, 0, 0.78);
+    box-shadow: 3.5px 3.5px 5px rgb(158, 158, 158);
+}
+
+h1 {
+    color: white;
+    font-size: 42px;
+    float: left;
+    height: 100%;
+    padding: 15px 25px;
+    font-weight: 100;
+}
+
+
+h2 {
+    height: 25px;   
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+footer {
+    height: 5%;
+    background-color: rgba(0, 0, 0, 0.78);
+    color: white;
+    font-size: 24px;
+}
+
+#middle_container {
+    height: 85%;
+}
+
+
+#filter_pane {
+    float: left;
+    width: 325px;
+    background-color: rgba(128, 128, 128, 0.27);
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 6.5px 0 10px rgb(158, 158, 158); 
+}
+
+#map_container {
+    float: left;
+    width: calc(100% - 650px);
+    height: 100%;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+/*.large_map {
+    width: calc(100% - 325px) !important;
+}*/
+
+
+#list_container {
+    float: right;
+    height: 100%;
+    width: 325px;
+    overflow-y: auto;
+}
+
+
+#ribbon_left {
+    width: 50px;
+    height: 100%;
+    float: left;
+    margin-left: 10px;
+}
+
+
+
+/*Style the ribbon with all the filters*/
+
+#filter_image {
+    margin-left: 5px;
+    margin-top: 15px;
+    height: 40px;
+    width: 40px; 
+}
+
+.icons {
+    margin-left: 5px;
+    width: 55px;
+    display: inline-block;
+    height: 100%;
+    float: left;
+}
+
+.remove {
+    margin-left: 5px;
+    width: 30px;
+    display: inline-block;   
+}
+
+
+form div.filter_row {
+    height: 64px;
+    margin-left: 10px;
+}
+
+form .icons img {
+    margin-left: 5px;
+    width: 25px;
+}
+
+#extra_filters {
+    margin-top: 15px;
+    margin-left: 75px;
+    margin-right: 25px;
+    text-align: right;
+}
+
+form #extra_filters a {
+    text-decoration: none;
+    /*text-decoration: underline;*/
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    color: black;
+    background: rgba(255, 255, 255, 0.41);
+    box-shadow: 3.5px 3.5px 5px rgb(158, 158, 158);
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid rgba(158, 158, 158, 0.29);
+}
+
+form .slider_wrapper {
+    display: inline-block;
+    width: 175px;
+    height: 100%;
+    float: left;
+    margin-right: 15px;
+    padding-top: 3px;
+}
+
+form .remove_wrapper {
+    display: inline-block;
+    height: 100%;
+}
+
+
+
+
+
+
+
+/*Styling for the results table*/
+
+#results_table {
+    /*line-height: 2px;*/
+    width: 100%;
+    border: none;
+}
+
+th, td {
+    padding: 0 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+td {
+    height: 62px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.13);
+}
+
+th {
+    height: 45px;
+/*    background: gray;
+    color: white;*/
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 1);
+}
+
+th:nth-child(1){
+     width:25px;
+}
+
+th:nth-child(2){
+     width:200px;
+}
+
+th:nth-child(3){
+     width:100px;
+}
+
+tr {
+    width: 100%;
+}
+
+
+
+
+
+
+/*Styling for the sliders*/
+
+input[type='range'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 175px;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /*background-color: white;*/
+    height: 3px;
+    cursor: pointer;
+    /*background: #ffffff;*/
+
+
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        color-stop(0, #2196F3),
+        color-stop(0, #ffffff)
+    );
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    box-shadow: 0.5px 0.5px 5px #ffffff, 0px 0px 1px #64B5F6;
+    /*border: 1px solid #d1d1d1;*/
+    height: 10px;
+    width: 10px;
+    border-radius: 50px;
+    /*     background: #ffffff;*/
+    background: #1976D2;
+    cursor: pointer;
+}
+
+
+
+
+
+
+/*Styles for the map*/
+
+
+#map {
+  height: 100%;
+  width: 100%;
+}

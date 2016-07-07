@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ski Project</title>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,700,600italic,700italic,800,800italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <div id="container">
+            
+            <header>
+
+                <div id="ribbon_left">
+                    <div> <img src="images/filter.png" id="filter_image"> </div>
+                    <div></div>
+                </div>
+            
+                <h1>Where Should I Ski?</h1>
+
+            </header>
+
+            <div id="middle_container">
+            
+                <div id="filter_pane">
+
+                    <h2>How much do you care about....</h2>
+
+                    <form action="#" method="post">
+                        
+                        <div id="slider_container">
+
+                            
+                            <div class="filter_row" id="cost.png">
+
+                                <div class="icons">
+                                    <img src="images/cost.png" title="Affordable">
+                                </div>
+                                
+                                <div class="slider_wrapper">
+                                    <input type="range" name="filters" id="cost" value="0" min="0" max="5" step="1">   
+                                </div>
+
+                                <a href="#" class="remove_wrapper"><img class="remove" src="images/remove.png"></a>
+
+                            </div>
+
+
+                            <div class="filter_row" id="snow.png">
+
+                                <div class="icons">
+                                    <img src="images/snow.png" title="Snow">
+                                </div>
+                                
+                                <div class="slider_wrapper">
+                                    <input type="range" name="filters" id="snow" value="0" min="0" max="5" step="1">   
+                                </div>
+
+                                <a href="#" class="remove_wrapper"><img class="remove" src="images/remove.png"></a>
+
+                            </div>
+
+
+                        </div>
+
+                        <!-- <h2>Other Filters</h2> -->
+                        
+                        <div id="extra_filters">
+                                
+                            <a href="#" id="tree_skiing.png">Tree Skiing</a>
+                            <a href="#" id="family_friendly.png">Family Friendly</a>
+                            <a href="#" id="nighttime_restaurants.png">Food</a>
+                            <a href="#" id="beginner.png">Beginners</a>
+                            <a href="#" id="expert.png">Experts</a>
+                            <a href="#" id="nightlife.png">Nightlife</a>
+                            <a href="#" id="lifts.png">Lift Experience</a>
+                            <a href="#" id="uncrowded.png">Uncrowded</a>
+                            <a href="#" id="terrain_park.png">Snowboarding</a>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+
+                <div id="map_container">
+                    <div id="map"></div>
+                </div>
+
+
+                <div id="list_container">
+
+                    <table id="results_table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Resort</th>
+                                <th>Region</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                </div>
+    
+
+            </div>
+
+
+            <footer>Footer</footer>
+
+        </div>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7UjF8s5PZB_UF1FkR5k21ljqQYFg1I0">
+        </script>
+        <script src="js/jquery-2.1.4.js"></script>
+        <script src="js/main.js"></script>
+
+    </body>
+</html>
