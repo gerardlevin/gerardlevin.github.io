@@ -154,6 +154,13 @@ $(function(){
         {resort: 'Asahidake', region: 'Japan', subregion: 'Hokkaido', beginner: '0', intermediate: '1', advanced: '1', offpiste: '4.5', tree_skiing: '4.5', expert: '3', extreme: '2', slackcountry: '5', snow: '5', uncrowded: '3.5', lifts: '2.5', terrain_park: '0', family_friendly: '0', freshies: '4', daytime_restaurants: '2', nighttime_restaurants: '1', nightlife: '1', apres: '0', skiinskiout: '0', cost: '5', english: '2', culture: '3', powderhounds: '4.5', overall: '3.5', latitude: '43.6636111', longitude: '142.8541666'} 
     ];
 
+    var skiDataFull = [];
+    var skiData2 = [];
+    var infoWindowArray = [];
+    var markerArray = [];
+    var map, marker, content, infoWindow;
+    var bounds;
+
 
     //CODE FOR ADDING A FILTER
     $("#extra_filters").on('click', 'a', function() {
@@ -170,27 +177,29 @@ $(function(){
         $("#slider_container").append('<div class="filter_row" id="' + picture + '"><div class="icons"><img src="images/' + picture + '"  title="' + label + '"></div><div class="slider_wrapper"><input type="range" name="filters" id="' + filter_id + '" value="0" min="0" max="5" step="1"></div><a href="#"><img class="remove" src="images/remove.png"></a></div>');
         
         //Hide the link that was selected
-        $(this).hide();
+        $(this).remove();
 
     });
 
 
     //CODE FOR REMOVING A FILTER
-    $('#slider_container').on('click', '.remove', function() {
+    $('body').on('click', '.remove', function() {
 
         //Store the id of the slider being removed
         var picture = $(this).parent().parent().attr('id');
         var label = $(this).parent().siblings('.icons').children("img").attr('title');
 
         //Change the value of the slider back to 0
-        $(this).parent().siblings('input').val(0);
-        console.log($(this).parent().siblings('input').val());
+        $(this).parent().siblings('.slider_wrapper').children('input').val(0);
+        // console.log(label + ": " + $(this).parent().siblings('.slider_wrapper').children('input').val());
 
         //Remove the entire row of the slider being removed
-        $(this).parent().parent().hide();
+        $(this).parent().parent().remove();
 
         //Add the removed tag back to the list of links
         $("#extra_filters").prepend('<a href="#" id="' + picture +'">' + label +'</a>');
+
+        runSkiCalcs();
 
     });
 
@@ -201,25 +210,64 @@ $(function(){
         $('#filter_pane').animate({width: 'toggle'},300);
         // $('#filter_pane').toggle();
 
-        // $('#map_container').toggleClass('large_map');
+        $('#map_container').toggleClass('large_map');
         // initialize();
+
+        // google.maps.event.trigger(map, 'resize');
+        // map.fitBounds(bounds);
 
     });
 
 
+    // Whenever the results table is selected...
+    $('#results_table tbody').on('click', 'tr', function () {
+        $('.selected').toggleClass('selected');
+        $(this).toggleClass('selected');
 
-runSkiCalcs();
+        //This will close  any open infowindows before opening the selected one
+        for (var i=0;i<infoWindowArray.length;i++) {
+           infoWindowArray[i].close();
+        }
+
+        var clickedIndex = $(this).find(':first-child').text() - 1;
+
+        // console.log(infoWindowArray[index].open(map,marker));
+        // map.setCenter(markerArray[clickedIndex].getPosition());
+        // google.maps.event.trigger(markerArray[clickedIndex], "click");
+
+        infoWindowArray[clickedIndex].open(map,markerArray[clickedIndex]);
+
+    })
 
 
-$('body').on('input', function () {
+
+
+
+//THERE ARE A FEW SCENARIOS UNDER WHICH WE RUN THE SKI DATA CALCULATOR
+
+    //Run the ski data calculator when the page first loads
     runSkiCalcs();
-});
-
-$('#slider_container').on('click', '.remove', function() {
-    runSkiCalcs();
-});
 
 
+    //Run the ski data calculator when a filter is changed
+    $('body').on('click', 'input', function() {
+
+        // console.log($(this).attr('id') + ": " + $(this).val());
+
+        runSkiCalcs();
+    });
+
+
+    $('body').on('change', 'select', function() {
+
+        // console.log($(this).attr('id') + ": " + $(this).val());
+
+        runSkiCalcs();
+    });
+
+
+
+//CREATES A GRADIENT TO FILL THE LOWER PORTION OF THE FILTERS
 $('#slider_container').on('click', 'input', function() {
     var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
     
@@ -233,7 +281,9 @@ $('#slider_container').on('click', 'input', function() {
 
 
 
+
 function runSkiCalcs() {
+
 
     // Loop through every object in the database
     for(var i=0; i < skiData.length; i++) {
@@ -262,6 +312,7 @@ function runSkiCalcs() {
                 } else {
                     resortUserScore = $("#" + property).val() / 100;
                 }
+                // console.log(skiData[i].resort + " " + property + ": " + $("#" + property).val());
 
                 // Create a running weighted sum for the current property
                 resortTotal = resortTotal + (resortSingleScore * resortUserScore);         
@@ -282,31 +333,59 @@ function runSkiCalcs() {
         return b.resortTotal - a.resortTotal || b.overall - a.overall;
     });
 
-    skiData2 = skiData.slice(0,50);
+    var filterRegion = $("select option:selected").text();
+
+
+
+    skiData2 = $.grep(skiData, function(v) {
+        if (filterRegion==="North America") {
+            return v.region === 'US' || v.region === 'Canada'; 
+        } else if (filterRegion==="South America") {
+            return v.region === 'South America';
+        } else if (filterRegion==="Europe") {
+            return v.region === 'Europe';
+        } else if (filterRegion==="Asia") {
+            return v.region === 'Japan' || v.region === 'India';
+        } else if (filterRegion==="Australia") {
+            return v.region === 'Australia' || v.region === 'New Zealand';
+        } else if (filterRegion==="Show All Regions") {
+            return v.region;
+        }     
+    });
+
+    skiData2 = skiData2.slice(0,25);
 
     $("#results_table tbody").html("");
 
     displayResults(skiData2);
 
+    infoWindowArray = [];
+    markerArray = [];
+
     initialize();
 
     // google.maps.event.addDomListener(window, 'load', initialize);
 
+    $('.selected').toggleClass('selected');
+    $('tr:first-child td').toggleClass('selected'); 
+
 }
+
 
 
 function displayResults(data){
 
   // use jquery to create a new table row containing data received from the API
   data.forEach(function(element, index, array){
-
-      $("#results_table tbody").append("<tr><td>" + (index + 1) + "</td><td>" + element.resort + "</td><td>" + element.region + "</td></tr>");
+      $("#results_table tbody").append("<tr><td>" + (index + 1) + "</td><td>" + element.resort + "</td><td>" + element.region + "</td><td>" + parseInt(element.resortTotal*100) + "</td></tr>");
 
   });
 }
 
 
 
+
+//Code for running the google map 
 function initialize(){
     
     var customMapType = new google.maps.StyledMapType([{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]}], {
@@ -314,31 +393,46 @@ function initialize(){
     });
     var customMapTypeId = 'custom_style';
 
+    var bounds = new google.maps.LatLngBounds();
+
+
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 2,
-      center: {lat: 0, lng: 10},
-      scrollwheel: false,
-      navigationControl: false,
-      mapTypeControl: false,
-      scaleControl: false,
+      // zoom: 2,
+      // center: {lat: 0, lng: 10},
+      // scrollwheel: false,
+      // navigationControl: false,
+      // mapTypeControl: false,
+      // scaleControl: false,
+      // disableDoubleClickZoom: true,
+      // draggable: false,
+      // panControl: false,
+      // animation: google.maps.Animation.DROP,
 
       mapTypeControlOptions: {
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, customMapTypeId]
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, customMapTypeId]
       }
     });
 
     map.mapTypes.set(customMapTypeId, customMapType);
     map.setMapTypeId(customMapTypeId);
 
+    
     skiData2.forEach(function(element, index, array){
-      var marker, content;
+        var marker, content;
 
-      marker = createMarker(element);
-      content = createInfoWindow(element, marker);
+        marker = createMarker(element, index);
+        content = createInfoWindow(element, marker, index);
+   
+        bounds.extend(marker.position);
     });
 
+    //now fit the map to the newly inclusive bounds
+    map.fitBounds(bounds);
 
-    function createMarker(element){
+    
+
+    function createMarker(element, index){
       var coordinates = new google.maps.LatLng(element.latitude, element.longitude); 
 
       var marker = new google.maps.Marker({
@@ -348,22 +442,50 @@ function initialize(){
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       });
 
+      marker.skiRank = index;
+
+      markerArray.push(marker);
 
       return marker;
     }
 
-    function createInfoWindow(element, marker){
-      var contentString;
+    function createInfoWindow(element, marker, index){
+      var contentString, main, subtitle, state;
 
-      contentString = "<div><span>" + element.resort + "</span></div><div>" + element.region + "</div>";
+      if (element.subregion === null) {state = ""} 
+      else {state = element.subregion + ", "}
+
+      title = "<span id='infoWindowRank'>#" + (index + 1) + " </span><span id='infoWindowTitle'>" + element.resort + "</span>";
+      subtitle = "<div id='infoWindowSubTitle'>" + state + element.region + "</div>";
+      score = "<div id='infoWindowScore'>Score: " + parseInt(element.resortTotal*100) + "</div>";
+      contentString = title + subtitle + score;
 
       var infoWindow = new google.maps.InfoWindow({
-        content: contentString
+        content: contentString,
+        maxWidth: 700
       });
 
+      infoWindowArray.push(infoWindow);
+
+      if (index===0) {infoWindow.open(map, marker)};
+
+      //Listen for click of marker on map
       google.maps.event.addListener(marker, 'click', function(){
+
+        //This will close  any open infowindows before opening the selected one
+        for (var i=0;i<infoWindowArray.length;i++) {
+           infoWindowArray[i].close();
+        }
+
         infoWindow.open(map, marker);
+
+        console.log(marker.skiRank);
+
+        $('.selected').toggleClass('selected');
+        $('tr:nth-child(' + (marker.skiRank + 1) + ') td').toggleClass('selected');
+
       });
+
 
     }
 

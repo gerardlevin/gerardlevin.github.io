@@ -19,6 +19,19 @@
             
                 <h1>Where Should I Ski?</h1>
 
+                <div id="region_selector">
+                    <form action="#" method="post">
+                        <select name="region">
+                            <option value="global">Show All Regions</option>       
+                            <option value="northAmerica">North America</option>    
+                            <option value="southAmerica">South America</option>    
+                            <option value="europe">Europe</option>    
+                            <option value="asia">Asia</option>  
+                            <option value="australia">Australia</option> 
+                        </select> 
+                    </form>                
+                </div>
+
             </header>
 
             <div id="middle_container">
@@ -35,7 +48,7 @@
                             <div class="filter_row" id="cost.png">
 
                                 <div class="icons">
-                                    <img src="images/cost.png" title="Affordable">
+                                    <img src="images/cost.png" title="Cost">
                                 </div>
                                 
                                 <div class="slider_wrapper">
@@ -50,7 +63,7 @@
                             <div class="filter_row" id="snow.png">
 
                                 <div class="icons">
-                                    <img src="images/snow.png" title="Snow">
+                                    <img src="images/snow.png" title="Snow Quality">
                                 </div>
                                 
                                 <div class="slider_wrapper">
@@ -71,8 +84,8 @@
                             <a href="#" id="tree_skiing.png">Tree Skiing</a>
                             <a href="#" id="family_friendly.png">Family Friendly</a>
                             <a href="#" id="nighttime_restaurants.png">Food</a>
-                            <a href="#" id="beginner.png">Beginners</a>
-                            <a href="#" id="expert.png">Experts</a>
+                            <a href="#" id="beginner.png">Good for Beginners</a>
+                            <a href="#" id="expert.png">Expert Skiing</a>
                             <a href="#" id="nightlife.png">Nightlife</a>
                             <a href="#" id="lifts.png">Lift Experience</a>
                             <a href="#" id="uncrowded.png">Uncrowded</a>
@@ -99,6 +112,7 @@
                                 <th>#</th>
                                 <th>Resort</th>
                                 <th>Region</th>
+                                <th>Score</th>
                             </tr>
                         </thead>
                         <tbody>
