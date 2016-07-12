@@ -103,6 +103,7 @@ h1 {
     overflow-y: auto;
     border: 1px solid rgba(0, 0, 0, 0.26);
     /*box-shadow: 6.5px 0 10px rgb(158, 158, 158); */
+    display: none;
 }
 
 #map_container {
@@ -336,3 +337,5 @@ input[type="range"]::-webkit-slider-thumb {
 #infoWindowScore {
     font-size: 20px;
 }
+
+

@@ -255,6 +255,8 @@ $(function(){
         // console.log($(this).attr('id') + ": " + $(this).val());
 
         runSkiCalcs();
+
+        
     });
 
 
@@ -486,13 +488,13 @@ function initialize(){
 
       });
 
-
     }
-
 
 }
 
 
 
 })
+
+
 
