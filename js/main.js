@@ -1,5 +1,11 @@
 $(function(){
 
+    // Resize the parent height depending on the size of the browser
+    $('#container').css({ height: $(window).innerHeight() });
+    $(window).resize(function(){
+      $('#container').css({ height: $(window).innerHeight() });
+    });
+
     var skiData = [
 
         {resort: 'Whistler-Blackcomb', region: 'Canada', subregion: null, beginner: '4', intermediate: '4.5', advanced: '5', offpiste: '5', tree_skiing: '4', expert: '5', extreme: '5', slackcountry: '5', snow: '3', uncrowded: '2', lifts: '5', terrain_park: '4.5', family_friendly: '5', freshies: '2.5', daytime_restaurants: '3.5', nighttime_restaurants: '5', nightlife: '5', apres: '5', skiinskiout: '2', cost: '2', english: null, culture: null, powderhounds: '4', overall: '5', latitude: '50.11226', longitude: '-122.947734'}, 
@@ -256,7 +262,7 @@ $(function(){
 
         runSkiCalcs();
 
-        
+
     });
 
 
