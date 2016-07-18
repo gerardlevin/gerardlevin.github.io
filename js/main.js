@@ -423,7 +423,7 @@ function initialize(){
     });
 
     map.mapTypes.set(customMapTypeId, customMapType);
-    map.setMapTypeId(customMapTypeId);
+    // map.setMapTypeId(customMapTypeId);
 
     
     skiData2.forEach(function(element, index, array){
