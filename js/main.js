@@ -256,7 +256,7 @@ $(function(){
 
 
     //Run the ski data calculator when a filter is changed
-    $('body').on('click', 'input', function() {
+    $('body').on('change', 'input', function() {
 
         // console.log($(this).attr('id') + ": " + $(this).val());
 
@@ -276,7 +276,7 @@ $(function(){
 
 
 //CREATES A GRADIENT TO FILL THE LOWER PORTION OF THE FILTERS
-$('#slider_container').on('click', 'input', function() {
+$('#slider_container').on('change', 'input', function() {
     var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
     
     $(this).css('background-image',
